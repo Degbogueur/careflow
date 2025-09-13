@@ -1,0 +1,46 @@
+﻿@model PagedResult<ConsultationViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<a class="btn btn-primary mb-3" asp-controller="Consultations" asp-action="Create">
+    <i class="fa fa-plus"></i> New consultation
+</a>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Patient</th>
+            <th>Doctor</th>
+            <th>Diagnosis</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (!Model.Items.Any())
+        {
+            <tr class="text-center text-muted">
+                <td colspan="5">No items found</td>
+            </tr>
+        }
+        else
+        {
+            @foreach (var consultation in Model.Items)
+            {
+                <tr class="align-middle">
+                    <td>@consultation.Date.ToShortDateString()</td>
+                    <td>@consultation.PatientName</td>
+                    <td>@consultation.DoctorName</td>
+                    <td>@consultation.Diagnosis</td>
+                    <td>
+                        <a class="btn btn-info" asp-action="Edit" asp-route-id="@consultation.Id" title="Edit">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

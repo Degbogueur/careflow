@@ -1,0 +1,76 @@
+﻿@model PagedResult<AppointmentViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+    var doctors = ViewBag.Doctors as List<SelectListItem> ?? new List<SelectListItem>();
+    var patients = ViewBag.Patients as List<SelectListItem> ?? new List<SelectListItem>();
+}
+
+<a class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#createModal">
+    <i class="fa fa-plus"></i> New appointment
+</a>
+
+<!-- Create Doctor Modal -->
+<partial name="_CreatePartial" model="new CreateAppointmentViewModel { Doctors = doctors, Patients = patients }" />
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Patient</th>
+            <th>Doctor</th>
+            <th>Status</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (!Model.Items.Any())
+        {
+            <tr class="text-center text-muted">
+                <td colspan="6">No items found</td>
+            </tr>
+        }
+        else
+        {
+            @foreach (var appointment in Model.Items)
+            {
+                <tr class="align-middle">
+                    <td>@appointment.Date.ToShortDateString()</td>
+                    <td>@appointment.StartTime - @appointment.EndTime</td>
+                    <td>@appointment.PatientName</td>
+                    <td>@appointment.DoctorName</td>
+                    <td>
+                        @if (appointment.Status == AppointmentStatus.Scheduled)
+                        {
+                            <span class="badge bg-warning">
+                                <i class="far fa-calendar"></i> @appointment.Status.ToString()
+                            </span>
+                        }
+                        else if (appointment.Status == AppointmentStatus.Completed)
+                        { 
+                            <span class="badge bg-success">
+                                <i class="far fa-calendar-check"></i> @appointment.Status.ToString()
+                            </span>
+                        }
+                        else
+                        { 
+                            <span class="badge bg-danger">
+                                <i class="far fa-calendar-xmark"></i> @appointment.Status.ToString()
+                            </span>
+                        }
+                    </td>
+                    <td>
+                        <a class="btn btn-info" asp-action="Edit" asp-route-id="@appointment.Id" title="Edit">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

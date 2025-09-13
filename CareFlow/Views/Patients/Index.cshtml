@@ -1,0 +1,53 @@
+﻿@model PagedResult<PatientViewModel>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<a class="btn btn-primary mb-3" asp-action="Create">
+    <i class="fa fa-plus"></i> New patient
+</a>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>First name</th>
+            <th>Last name</th>
+            <th>Date of birth</th>
+            <th>Gender</th>
+            <th>Phone number</th>
+            <th>Address</th>
+            <th>Registration date</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (!Model.Items.Any())
+        {
+            <tr class="text-center text-muted">
+                <td colspan="8">No items found</td>
+            </tr>
+        }
+        else
+        {
+            @foreach (var patient in Model.Items)
+            {
+                <tr class="align-middle">
+                    <td>@patient.FirstName</td>
+                    <td>@patient.LastName</td>
+                    <td>@patient.DateOfBirth.ToShortDateString() - <small class="text-muted">@patient.Age y.o</small></td>
+                    <td>@patient.Gender.ToString()</td>
+                    <td>@patient.PhoneNumber</td>
+                    <td>
+                        @patient.Address?.City, @patient.Address?.Province
+                    </td>
+                    <td>@patient.RegistrationDate.ToShortDateString()</td>
+                    <td>
+                        <a class="btn btn-info" asp-action="Edit" asp-route-id="@patient.Id" title="Edit">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

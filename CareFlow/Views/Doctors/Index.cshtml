@@ -1,0 +1,70 @@
+﻿@model PagedResult<DoctorViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+    var specialties = ViewBag.Specialties as List<SelectListItem> ?? new List<SelectListItem>();
+}
+
+<a class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#createModal">
+    <i class="fa fa-plus"></i> New doctor
+</a>
+
+<!-- Create Doctor Modal -->
+<partial name="_CreatePartial" model="new AddDoctorViewModel { Specialties = specialties }" />
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Specialty</th>
+            <th>Patients</th>
+            <th>Upcoming appointments</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (!Model.Items.Any())
+        {
+            <tr class="text-center text-muted">
+                <td colspan="5">No items found</td>
+            </tr>
+        }
+        else
+        {
+            @foreach (var doctor in Model.Items)
+            {
+                <tr class="align-middle">
+                    <td>@doctor.FullName</td>
+                    <td>@doctor.SpecialtyName</td>
+                    <td>@doctor.PatientsCount</td>
+                    <td>@doctor.UpcomingAppointments</td>
+                    <td>
+                        <a class="btn btn-info" asp-action="Edit" asp-route-id="@doctor.Id" title="Edit">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        const createModal = document.getElementById('createModal');
+        $('#specialties').select2({
+            theme: 'bootstrap-5',
+            placeholder: "-- Select a specialty --",
+            allowClear: true,
+            dropdownParent: $(createModal),
+            ajax: {
+                url: '@Url.Action("Search", "Specialties")',
+                delay: 250,
+                data: params => ({ query: params.term }),
+                processResults: data => ({ results: data })
+            },
+            minimumInputLength: 2
+        });
+    </script>
+}

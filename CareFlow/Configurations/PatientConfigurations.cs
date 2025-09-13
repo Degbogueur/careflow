@@ -20,14 +20,5 @@ public class PatientConfigurations : IEntityTypeConfiguration<Patient>
                .WithOne(a => a.Patient)
                .HasForeignKey(a => a.PatientId)
                .OnDelete(DeleteBehavior.Cascade);
-
-        builder.OwnsOne(p => p.Address, a =>
-        {
-            a.Property(a => a.Street).HasColumnName("Street");
-            a.Property(a => a.City).HasColumnName("City");
-            a.Property(a => a.Province).HasColumnName("Province");
-            a.Property(a => a.Country).HasColumnName("Country");
-            a.Property(a => a.PostalCode).HasColumnName("PostalCode");
-        });
     }
 }
