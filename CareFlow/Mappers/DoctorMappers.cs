@@ -11,6 +11,8 @@ public static class DoctorMappers
         {
             FirstName = viewModel.FirstName,
             LastName = viewModel.LastName,
+            Email = viewModel.Email,
+            PhoneNumber = viewModel.PhoneNumber,
             SpecialtyId = viewModel.SpecialtyId
         };
     }

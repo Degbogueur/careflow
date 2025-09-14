@@ -13,6 +13,7 @@ public static class PatientMappers
         {
             FirstName = viewModel.FirstName,
             LastName = viewModel.LastName,
+            Email = viewModel.Email,
             DateOfBirth = viewModel.DateOfBirth,
             Gender = viewModel.Gender,
             PhoneNumber = viewModel.PhoneNumber,

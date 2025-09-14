@@ -10,6 +10,10 @@ public class AddDoctorViewModel
     public string FirstName { get; set; } = null!;
     [Required]
     public string LastName { get; set; } = null!;
+    [Required]
+    [EmailAddress]
+    public string Email { get; set; } = null!;
+    public string? PhoneNumber { get; set; }
     public int SpecialtyId { get; set; }
 
     public List<SelectListItem>? Specialties { get; set; }

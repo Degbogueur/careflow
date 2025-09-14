@@ -1,10 +1,12 @@
-﻿using CareFlow.Data;
+﻿using CareFlow.BackgroundJobs.Interfaces;
+using CareFlow.Data;
 using CareFlow.Extensions;
 using CareFlow.Mappers;
 using CareFlow.Models;
 using CareFlow.Models.Results;
 using CareFlow.Services.Interfaces;
 using CareFlow.ViewModels.Doctors;
+using Hangfire;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,6 +21,8 @@ public class DoctorService(ApplicationDbContext dbContext) : IDoctorService
 
         await dbContext.Doctors.AddAsync(doctor, cancellationToken);
         await dbContext.SaveChangesAsync(cancellationToken);
+
+        BackgroundJob.Enqueue<IUserAccountBackgroundJobs>(b => b.CreateDoctorUserAccountAsync(doctor.Id));
     }
 
     public async Task<PagedResult<DoctorViewModel>> GetAllAsync(PaginationParameters? parameters, CancellationToken cancellationToken)
