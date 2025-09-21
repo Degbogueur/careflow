@@ -10,7 +10,7 @@ public static class AppointmentMappers
     {
         return new Appointment
         {
-            Date = viewModel.Date!.Value,
+            Date = viewModel.Date,
             StartTime = viewModel.StartTime!.Value,
             EndTime = viewModel.EndTime!.Value,
             PatientId = viewModel.PatientId,

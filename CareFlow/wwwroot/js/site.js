@@ -338,3 +338,159 @@ window.CareFlow = {
     getStatusBadge,
     toggleDarkMode
 };
+
+// Custom Nav Tabs
+// Enhanced tab functionality
+function initializeHealthcareTabs() {
+    const tabContainers = document.querySelectorAll('.nav-tabs-healthcare');
+
+    tabContainers.forEach(container => {
+        const tabLinks = container.querySelectorAll('.nav-link');
+        const targetContainer = container.getAttribute('data-target') ||
+            container.nextElementSibling;
+
+        tabLinks.forEach(link => {
+            link.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                // Remove active class from all tabs in this container
+                tabLinks.forEach(tab => tab.classList.remove('active'));
+
+                // Add active class to clicked tab
+                this.classList.add('active');
+
+                // Handle tab content switching
+                const targetId = this.getAttribute('data-bs-target') ||
+                    this.getAttribute('href');
+
+                if (targetId) {
+                    switchTabContent(targetId.substring(1));
+                }
+
+                // Trigger custom event
+                const tabEvent = new CustomEvent('healthcareTabChanged', {
+                    detail: {
+                        activeTab: this,
+                        tabId: targetId,
+                        tabText: this.textContent.trim()
+                    }
+                });
+                document.dispatchEvent(tabEvent);
+            });
+        });
+    });
+}
+
+function switchTabContent(tabId) {
+    // Hide all tab panes
+    const allTabPanes = document.querySelectorAll('.tab-pane');
+    allTabPanes.forEach(pane => {
+        pane.classList.remove('show', 'active');
+    });
+
+    // Show target tab pane
+    const targetPane = document.getElementById(tabId);
+    if (targetPane) {
+        targetPane.classList.add('show', 'active');
+    }
+}
+
+// Tab loading state
+function setTabLoading(tabId, isLoading = true) {
+    const tabPane = document.getElementById(tabId);
+    if (!tabPane) return;
+
+    if (isLoading) {
+        tabPane.innerHTML = `
+            <div class="tab-loading">
+                <i class="fas fa-spinner fa-spin"></i>
+                Loading...
+            </div>
+        `;
+    }
+}
+
+// Update tab badge count
+function updateTabBadge(tabId, count) {
+    const tab = document.querySelector(`[data-bs-target="#${tabId}"], [href="#${tabId}"]`);
+    if (!tab) return;
+
+    let badge = tab.querySelector('.tab-badge');
+    if (!badge && count > 0) {
+        badge = document.createElement('span');
+        badge.className = 'tab-badge';
+        tab.appendChild(badge);
+    }
+
+    if (badge) {
+        if (count > 0) {
+            badge.textContent = count > 99 ? '99+' : count;
+            badge.style.display = 'inline-block';
+        } else {
+            badge.style.display = 'none';
+        }
+    }
+}
+
+// Add tab dynamically
+function addHealthcareTab(container, tabConfig) {
+    const tabContainer = typeof container === 'string' ?
+        document.querySelector(container) : container;
+
+    if (!tabContainer) return;
+
+    // Create tab link
+    const tabItem = document.createElement('li');
+    tabItem.className = 'nav-item';
+
+    const tabLink = document.createElement('a');
+    tabLink.className = 'nav-link';
+    tabLink.setAttribute('data-bs-target', `#${tabConfig.id}`);
+    tabLink.href = `#${tabConfig.id}`;
+
+    let tabContent = '';
+    if (tabConfig.icon) {
+        tabContent += `<i class="${tabConfig.icon}"></i>`;
+    }
+    tabContent += tabConfig.title;
+    if (tabConfig.badge) {
+        tabContent += `<span class="tab-badge">${tabConfig.badge}</span>`;
+    }
+
+    tabLink.innerHTML = tabContent;
+    tabItem.appendChild(tabLink);
+    tabContainer.appendChild(tabItem);
+
+    // Re-initialize event listeners
+    initializeHealthcareTabs();
+}
+
+// Remove tab dynamically
+function removeHealthcareTab(tabId) {
+    const tabLink = document.querySelector(`[data-bs-target="#${tabId}"], [href="#${tabId}"]`);
+    const tabPane = document.getElementById(tabId);
+
+    if (tabLink) {
+        tabLink.closest('.nav-item').remove();
+    }
+
+    if (tabPane) {
+        tabPane.remove();
+    }
+}
+
+// Initialize tabs when document is ready
+document.addEventListener('DOMContentLoaded', function () {
+    initializeHealthcareTabs();
+});
+
+// Export functions to global CareFlow object
+if (window.CareFlow) {
+    window.CareFlow.tabs = {
+        initialize: initializeHealthcareTabs,
+        setLoading: setTabLoading,
+        updateBadge: updateTabBadge,
+        addTab: addHealthcareTab,
+        removeTab: removeHealthcareTab
+    };
+}

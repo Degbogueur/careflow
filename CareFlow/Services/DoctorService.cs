@@ -30,14 +30,30 @@ public class DoctorService(ApplicationDbContext dbContext) : IDoctorService
         parameters ??= new PaginationParameters();
         return await dbContext.Doctors
             .AsNoTracking()
-            .Select(d => new DoctorViewModel
-            {
-                Id = d.Id,
-                FullName = d.FullName,
-                SpecialtyName = d.Specialty!.Name,
-                UpcomingAppointments = d.Appointments.Count(a => a.Status == AppointmentStatus.Scheduled),
-                PatientsCount = d.Consultations.Select(c => c.MedicalRecord).Distinct().Count()
-            }).ToPagedResultAsync(parameters, cancellationToken);
+            .Select(DoctorMappers.ToExpressionViewModel())
+            .ToPagedResultAsync(parameters, cancellationToken);
+    }
+
+    public async Task<DoctorDetailsViewModel?> GetDoctorDetailsAsync(int id, CancellationToken cancellationToken = default)
+    {
+        return await dbContext.Doctors
+            .Where(d => d.Id == id)
+            .AsNoTracking()
+            .Select(DoctorMappers.ToDetailsViewModel())
+            .FirstOrDefaultAsync(cancellationToken);
+    }
+
+    public async Task<List<SearchResult>> SearchByNameAsync(string query, CancellationToken cancellationToken = default)
+    {
+        var result = await dbContext.Doctors
+            .Where(d => EF.Functions.Like(d.FirstName + " " + d.LastName, $"%{query}%"))
+            .AsNoTracking()
+            .OrderBy(d => d.FirstName)
+                .ThenBy(d => d.LastName)
+            .Take(10)
+            .Select(d => new SearchResult { Id = d.Id, Text = d.FullName })
+            .ToListAsync(cancellationToken);
+        return result;
     }
 
     public async Task<List<SelectListItem>> GetSelectListItemsAsync(int count = 10, CancellationToken cancellationToken = default)
@@ -49,5 +65,18 @@ public class DoctorService(ApplicationDbContext dbContext) : IDoctorService
             .Take(count)
             .Select(d => new SelectListItem { Value = d.Id.ToString(), Text = d.FullName })
             .ToListAsync(cancellationToken);
+    }
+
+    public async Task<bool> UpdateAsync(UpdateDoctorViewModel viewModel, CancellationToken cancellationToken = default)
+    {
+        var isUpdated = await dbContext.Doctors
+            .Where(d => d.Id == viewModel.Id)
+            .ExecuteUpdateAsync(d => d
+                .SetProperty(d => d.FirstName, viewModel.FirstName)
+                .SetProperty(d => d.LastName, viewModel.LastName)
+                .SetProperty(d => d.SpecialtyId, viewModel.SpecialtyId),
+            cancellationToken);
+
+        return isUpdated > 0;
     }
 }

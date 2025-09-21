@@ -11,4 +11,5 @@ public interface ISpecialtyService
     Task<List<SelectListItem>> GetSelectListItemsAsync(int count, CancellationToken cancellationToken);
     Task<List<SearchResult>> SearchByNameAsync(string query, CancellationToken cancellationToken);
     Task<bool> UpdateAsync(UpdateSpecialtyViewModel viewModel, CancellationToken cancellationToken);
+    Task<bool> DeleteAsync(int id, CancellationToken cancellationToken);
 }

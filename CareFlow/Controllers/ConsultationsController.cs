@@ -6,9 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace CareFlow.Controllers;
 
 public class ConsultationsController(
-    IConsultationService consultationService,
-    IDoctorService doctorService,
-    IPatientService patientService) : Controller
+    IConsultationService consultationService) : Controller
 {
     public async Task<IActionResult> Index(PaginationParameters? parameters = null, CancellationToken cancellationToken = default)
     {
@@ -16,11 +14,18 @@ public class ConsultationsController(
         return View(consultations);
     }
 
-    public async Task<IActionResult> Create(CancellationToken cancellationToken = default)
+    public IActionResult Create(int? appointmentId = null, CancellationToken cancellationToken = default)
     {
-        var doctors = await doctorService.GetSelectListItemsAsync(count: 10, cancellationToken);
-        var patients = await patientService.GetSelectListItemsAsync(count: 10, cancellationToken);
-        var model = new CreateConsultationViewModel { Patients = patients, Doctors = doctors };
+        var model = appointmentId.HasValue
+                  ? new CreateConsultationViewModel { AppointmentId = appointmentId }
+                  : new CreateConsultationViewModel();
         return View(model);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Create(CreateConsultationViewModel model, CancellationToken cancellationToken = default)
+    {
+        return RedirectToAction(nameof(Index));
     }
 }

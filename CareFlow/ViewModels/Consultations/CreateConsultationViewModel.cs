@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace CareFlow.ViewModels.Consultations;
@@ -6,7 +7,10 @@ namespace CareFlow.ViewModels.Consultations;
 public class CreateConsultationViewModel
 {
     public DateTime Date { get; set; } = DateTime.Now;
+    public int? AppointmentId { get; set; }
+    [DisplayName("Patient")]
     public int PatientId { get; set; }
+    [DisplayName("Doctor")]
     public int DoctorId { get; set; }
     public decimal? Weight { get; set; }
     public decimal? Height { get; set; }
@@ -17,7 +21,4 @@ public class CreateConsultationViewModel
     [Required]
     public string Treatment { get; set; } = null!;
     public string? Notes { get; set; }
-
-    public List<SelectListItem> Patients { get; set; } = [];
-    public List<SelectListItem> Doctors { get; set; } = [];
 }

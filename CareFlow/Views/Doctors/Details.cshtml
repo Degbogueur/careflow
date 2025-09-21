@@ -1,0 +1,178 @@
+﻿@model DoctorDetailsViewModel
+
+@{
+    ViewData["Title"] = "Doctor details";
+}
+
+<a class="btn btn-sm btn-secondary mb-4" asp-action="Index">
+    <i class="fas fa-left-long"></i> List of doctors
+</a>
+
+<div class="row gx-5 gy-2">
+    <div class="col-lg-3 col-md-6 col-sm-12">
+        <dl class="row">
+            <dt class="col-auto">@Html.DisplayNameFor(p => p.FullName)</dt>
+            <dd class="col border-bottom text-center mb-0">@Model.FullName</dd>
+        </dl>
+    </div>
+    <div class="col-lg-3 col-md-6 col-sm-12">
+        <dl class="row">
+            <dt class="col-auto">@Html.DisplayNameFor(p => p.SpecialtyName)</dt>
+            <dd class="col border-bottom text-center mb-0">@Model.SpecialtyName</dd>
+        </dl>
+    </div>
+    <div class="col-lg-3 col-md-6 col-sm-12">
+        <dl class="row">
+            <dt class="col-auto">@Html.DisplayNameFor(p => p.Email)</dt>
+            <dd class="col border-bottom text-center mb-0">@Model.Email</dd>
+        </dl>
+    </div>
+    <div class="col-lg-3 col-md-6 col-sm-12">
+        <dl class="row">
+            <dt class="col-auto">@Html.DisplayNameFor(p => p.PhoneNumber)</dt>
+            <dd class="col border-bottom text-center mb-0">@Model.PhoneNumber</dd>
+        </dl>
+    </div>
+</div>
+
+<div class="card mt-4">
+    <div class="card-header p-0">
+        <ul class="nav nav-tabs-healthcare tabs-secondary" role="tablist">
+            <li class="nav-item" role="presentation">
+                <a class="nav-link active" data-bs-target="#patientsList" href="#patientsList" role="tab">
+                    <i class="fas fa-users"></i>
+                    Patients
+                </a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" data-bs-target="#system-status" href="#system-status" role="tab">
+                    <i class="far fa-calendar"></i>
+                    Schedule
+                </a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" data-bs-target="#reports" href="#reports" role="tab">
+                    <i class="fas fa-file-alt"></i>
+                    Consultations
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="tab-content tab-content-healthcare">
+        <div class="tab-pane fade show active" id="patientsList" role="tabpanel">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>First name</th>
+                        <th>Last name</th>
+                        <th>Contact</th>
+                        <th>Gender</th>
+                        <th>Age</th>
+                        <th>Address</th>
+                        <th>Registration date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (!Model.Patients.Any())
+                    {
+                        <tr class="text-center text-muted">
+                            <td colspan="8">No patients found</td>
+                        </tr>
+                    }
+                    else
+                    {
+                        @foreach (var patient in Model.Patients)
+                        {
+                            <tr class="align-middle">
+                                <td>@patient.FirstName</td>
+                                <td>@patient.LastName</td>
+                                <td>
+                                    @patient.Email
+                                    @if (!string.IsNullOrEmpty(patient.PhoneNumber))
+                                    {
+                                        <p class="small text-muted mb-0">@patient.PhoneNumber</p>
+                                    }
+                                </td>
+                                <td>
+                                    @{ string badgeColor = patient.Gender == Gender.Male ? "primary" : patient.Gender == Gender.Female ? "danger" : "secondary"; }
+                                    <span class="badge bg-@badgeColor">
+                                        @patient.Gender.ToString()
+                                    </span>
+                                </td>
+                                <td>@patient.Age years</td>
+                                <td>@patient.Address?.City, @patient.Address?.Province</td>
+                                <td>@patient.RegistrationDate.ToShortDateString()</td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <div class="tab-pane fade" id="system-status" role="tabpanel">
+            <h5 class="mb-3">System Health Status</h5>
+            <div class="list-group">
+                <div class="list-group-item d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="mb-1">Database Connection</h6>
+                        <small>Response time: 45ms</small>
+                    </div>
+                    <span class="badge bg-success">Healthy</span>
+                </div>
+                <div class="list-group-item d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="mb-1">API Services</h6>
+                        <small>All endpoints operational</small>
+                    </div>
+                    <span class="badge bg-success">Healthy</span>
+                </div>
+                <div class="list-group-item d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="mb-1">Email Service</h6>
+                        <small>Queue processing delayed</small>
+                    </div>
+                    <span class="badge bg-warning">Warning</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-pane fade" id="reports" role="tabpanel">
+            <h5 class="mb-3">Recent Reports</h5>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Report Name</th>
+                            <th>Generated</th>
+                            <th>Type</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Monthly Patient Summary</td>
+                            <td>2025-09-01</td>
+                            <td><span class="badge bg-info">Summary</span></td>
+                            <td>
+                                <button class="btn btn-sm btn-outline-primary">
+                                    <i class="fas fa-download"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Financial Analysis Q3</td>
+                            <td>2025-08-30</td>
+                            <td><span class="badge bg-success">Financial</span></td>
+                            <td>
+                                <button class="btn btn-sm btn-outline-primary">
+                                    <i class="fas fa-download"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,6 +1,6 @@
 ﻿@model AddPatientViewModel
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Add a new patient";
 }
 
 <a class="btn btn-sm btn-secondary mb-3" asp-action="Index">
@@ -10,22 +10,32 @@
 <form asp-action="Create" method="post">
     <div class="row">
         <div class="col-md-6 mb-3">
-            <label asp-for="FirstName" class="form-label"></label>
+            <label asp-for="FirstName" class="form-label required"></label>
             <input asp-for="FirstName" class="form-control" />
             <span asp-validation-for="FirstName" class="text-danger"></span>
         </div>
         <div class="col-md-6 mb-3">
-            <label asp-for="LastName" class="form-label"></label>
+            <label asp-for="LastName" class="form-label required"></label>
             <input asp-for="LastName" class="form-control" />
             <span asp-validation-for="LastName" class="text-danger"></span>
         </div>
         <div class="col-md-6 mb-3">
-            <label asp-for="DateOfBirth" class="form-label"></label>
+            <label asp-for="Email" class="form-label required"></label>
+            <input asp-for="Email" class="form-control" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+        <div class="col-md-6 mb-3">
+            <label asp-for="PhoneNumber" class="form-label"></label>
+            <input asp-for="PhoneNumber" class="form-control" />
+            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+        </div>
+        <div class="col-md-6 mb-3">
+            <label asp-for="DateOfBirth" class="form-label required"></label>
             <input type="date" asp-for="DateOfBirth" class="form-control" />
             <span asp-validation-for="DateOfBirth" class="text-danger"></span>
         </div>
         <div class="col-md-6 mb-3">
-            <label asp-for="Gender" class="form-label"></label>
+            <label asp-for="Gender" class="form-label required"></label>
             <div class="d-flex form-control align-items-center">
                 @foreach (Gender gender in Enum.GetValues(typeof(Gender)))
                 {
@@ -37,33 +47,23 @@
             </div>
             <span asp-validation-for="Gender" class="text-danger"></span>
         </div>
-        <div class="col-md-6 mb-3">
-            <label asp-for="PhoneNumber" class="form-label"></label>
-            <input asp-for="PhoneNumber" class="form-control" />
-            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-        </div>
-        <div class="col-md-6 mb-3">
-            <label asp-for="RegistrationDate" class="form-label"></label>
-            <input type="date" asp-for="RegistrationDate" class="form-control" />
-            <span asp-validation-for="RegistrationDate" class="text-danger"></span>
-        </div>
         <div class="col-md-4 mb-3">
             <label asp-for="Address.Street" class="form-label"></label>
             <input asp-for="Address.Street" class="form-control" />
             <span asp-validation-for="Address.Street" class="text-danger"></span>
         </div>
         <div class="col-md-4 mb-3">
-            <label asp-for="Address.City" class="form-label"></label>
+            <label asp-for="Address.City" class="form-label required"></label>
             <input asp-for="Address.City" class="form-control" />
             <span asp-validation-for="Address.City" class="text-danger"></span>
         </div>
         <div class="col-md-4 mb-3">
-            <label asp-for="Address.Province" class="form-label"></label>
+            <label asp-for="Address.Province" class="form-label required"></label>
             <input asp-for="Address.Province" class="form-control" />
             <span asp-validation-for="Address.Province" class="text-danger"></span>
         </div>
         <div class="col-md-6 mb-3">
-            <label asp-for="Address.Country" class="form-label"></label>
+            <label asp-for="Address.Country" class="form-label required"></label>
             <input asp-for="Address.Country" class="form-control" />
             <span asp-validation-for="Address.Country" class="text-danger"></span>
         </div>
@@ -72,8 +72,15 @@
             <input asp-for="Address.PostalCode" class="form-control" />
             <span asp-validation-for="Address.PostalCode" class="text-danger"></span>
         </div>
+        <div class="mb-3">
+            <div class="form-check">
+                <input asp-for="CreateUserAccount" class="form-check-input" checked />
+                <label asp-for="CreateUserAccount" class="form-check-label"></label>
+                <span asp-validation-for="CreateUserAccount" class="text-danger"></span>
+            </div>
+        </div>
     </div>
-    <button type="submit" class="w-100 btn btn-success py-2">
+    <button type="submit" class="w-100 btn btn-primary py-2">
         Save
     </button>
 </form>

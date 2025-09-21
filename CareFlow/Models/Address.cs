@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel;
 
 namespace CareFlow.Models;
 
@@ -9,5 +10,6 @@ public class Address
     public required string City { get; set; }
     public required string Province { get; set; }
     public required string Country { get; set; }
+    [DisplayName("Postal code")]
     public string? PostalCode { get; set; }
 }

@@ -1,6 +1,6 @@
 ﻿@model PagedResult<SpecialtyViewModel>
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "List of specialties";
     string[] colors = { "primary", "warning", "danger", "success", "info", "secondary" };
     Random random = new Random();
 }
@@ -57,7 +57,7 @@
                 <div class="modal-body">
                     <input type="hidden" id="updateId" name="Id" />
                     <div class="mb-3">
-                        <label for="updateName" class="form-label">Name</label>
+                        <label for="updateName" class="form-label required">Name</label>
                         <input type="text" class="form-control" id="updateName" name="Name" required />
                     </div>
                     <div class="mb-3">
@@ -68,6 +68,28 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                     <button type="submit" class="btn btn-primary">Update</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Specialty Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form asp-controller="Specialties" asp-action="Delete" method="post">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">Delete specialty</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="deleteId" name="Id" />
+                    Are you sure you want to delete <span id="deleteName" class="fw-bold"></span> specialty ?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-danger">Delete</button>
                 </div>
             </form>
         </div>
@@ -97,8 +119,8 @@ else
                             </div>
 
                             <div class="d-flex gap-1">
-                                <button class="btn btn-action" 
-                                        type="button" 
+                                <button class="btn btn-action"
+                                        type="button"
                                         data-bs-toggle="modal"
                                         data-bs-target="#updateModal"
                                         data-id="@specialty.Id"
@@ -107,9 +129,18 @@ else
                                         title="Edit">
                                     <i class="fa fa-pen-to-square" style="font-size: 1rem;"></i>
                                 </button>
-                                <button class="btn btn-action btn-delete text-danger" type="button" title="Delete">
-                                    <i class="fa fa-trash-can" style="font-size: 1rem;"></i>
-                                </button>
+                                @if (specialty.DoctorsCount == 0)
+                                {
+                                    <button class="btn btn-action btn-delete text-danger"
+                                            type="button"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#deleteModal"
+                                            data-id="@specialty.Id"
+                                            data-name="@specialty.Name"
+                                            title="Delete">
+                                        <i class="fa fa-trash-can" style="font-size: 1rem;"></i>
+                                    </button>
+                                }
                             </div>
                         </div>
                     </div>
@@ -121,7 +152,7 @@ else
                                 @specialty.Description
                             }
                             else
-                            { 
+                            {
                                 <span class="fst-italic">No description</span>
                             }
                         </p>
@@ -155,6 +186,17 @@ else
             document.getElementById('updateId').value = id;
             document.getElementById('updateName').value = name;
             document.getElementById('updateDescription').value = description || '';
+        });
+    </script>
+    <script>
+        const deleteModal = document.getElementById('deleteModal');
+        deleteModal.addEventListener('show.bs.modal', function (event) {
+            const button = event.relatedTarget;
+            const id = button.getAttribute('data-id');
+            const name = button.getAttribute('data-name');
+
+            document.getElementById('deleteId').value = id;
+            document.getElementById('deleteName').innerText = name;
         });
     </script>
 }

@@ -66,6 +66,9 @@ namespace CareFlow.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int?>("AppointmentId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
@@ -99,6 +102,8 @@ namespace CareFlow.Data.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AppointmentId");
 
                     b.HasIndex("DoctorId");
 
@@ -162,6 +167,9 @@ namespace CareFlow.Data.Migrations
                         .HasColumnType("nvarchar(256)");
 
                     b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
                     b.Property<bool>("LockoutEnabled")
@@ -458,6 +466,10 @@ namespace CareFlow.Data.Migrations
 
             modelBuilder.Entity("CareFlow.Models.Consultation", b =>
                 {
+                    b.HasOne("CareFlow.Models.Appointment", "Appointment")
+                        .WithMany()
+                        .HasForeignKey("AppointmentId");
+
                     b.HasOne("CareFlow.Models.Doctor", "Doctor")
                         .WithMany("Consultations")
                         .HasForeignKey("DoctorId")
@@ -469,6 +481,8 @@ namespace CareFlow.Data.Migrations
                         .HasForeignKey("MedicalRecordId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Appointment");
 
                     b.Navigation("Doctor");
 

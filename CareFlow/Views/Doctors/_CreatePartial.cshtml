@@ -10,17 +10,17 @@
                 </div>
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label asp-for="FirstName" class="form-label"></label>
+                        <label asp-for="FirstName" class="form-label required"></label>
                         <input asp-for="FirstName" class="form-control" />
                         <span asp-validation-for="FirstName" class="text-danger"></span>
                     </div>
                     <div class="mb-3">
-                        <label asp-for="LastName" class="form-label"></label>
+                        <label asp-for="LastName" class="form-label required"></label>
                         <input asp-for="LastName" class="form-control" />
                         <span asp-validation-for="LastName" class="text-danger"></span>
                     </div>
                     <div class="mb-3">
-                        <label asp-for="Email" class="form-label"></label>
+                        <label asp-for="Email" class="form-label required"></label>
                         <input asp-for="Email" class="form-control" />
                         <span asp-validation-for="Email" class="text-danger"></span>
                     </div>
@@ -30,8 +30,8 @@
                         <span asp-validation-for="PhoneNumber" class="text-danger"></span>
                     </div>
                     <div class="mb-3">
-                        <label asp-for="SpecialtyId" class="form-label"></label>
-                        <select id="specialties" asp-for="SpecialtyId" class="form-select" asp-items="Model.Specialties">
+                        <label asp-for="SpecialtyId" class="form-label required"></label>
+                        <select asp-for="SpecialtyId" class="form-select specialties-select" asp-items="Model.Specialties">
                             <option value=""></option>
                         </select>
                         <span asp-validation-for="SpecialtyId" class="text-danger"></span>

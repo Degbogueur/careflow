@@ -10,6 +10,14 @@ namespace CareFlow.Services;
 
 public class ConsultationService(ApplicationDbContext dbContext) : IConsultationService
 {
+    public async Task CreateAsync(CreateConsultationViewModel viewModel, CancellationToken cancellationToken = default)
+    {
+        var model = viewModel.ToModel();
+
+        await dbContext.Consultations.AddAsync(model, cancellationToken);
+        await dbContext.SaveChangesAsync(cancellationToken);
+    }
+
     public async Task<PagedResult<ConsultationViewModel>> GetAllAsync
         (PaginationParameters? parameters = null, CancellationToken cancellationToken = default)
     {

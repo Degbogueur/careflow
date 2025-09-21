@@ -50,7 +50,9 @@ public class SpecialtyService(ApplicationDbContext dbContext) : ISpecialtyServic
         return await dbContext.Specialties
             .Where(s => EF.Functions.Like(s.Name, $"%{query}%"))
             .AsNoTracking()
-            .Select(s => new SearchResult { Id = s.Id, DisplayValue = s.Name })
+            .OrderBy(s => s.Name)
+            .Take(10)
+            .Select(s => new SearchResult { Id = s.Id, Text = s.Name })
             .ToListAsync(cancellationToken);
     }
 
@@ -64,5 +66,14 @@ public class SpecialtyService(ApplicationDbContext dbContext) : ISpecialtyServic
             cancellationToken);
 
         return isUpdated > 0;
+    }
+
+    public async Task<bool> DeleteAsync(int id, CancellationToken cancellationToken = default)
+    {
+        var isDeleted = await dbContext.Specialties
+            .Where(s => s.Id == id)
+            .ExecuteDeleteAsync(cancellationToken);
+
+            return isDeleted > 0;
     }
 }

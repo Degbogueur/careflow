@@ -1,0 +1,207 @@
+﻿@model PatientDetailsViewModel
+
+@{
+    ViewData["Title"] = "Patient details";
+}
+
+<a class="btn btn-sm btn-secondary mb-4" asp-action="Index">
+    <i class="fas fa-left-long"></i> List of patients
+</a>
+
+<div class="row gx-5 gy-2">
+    <div class="col-lg-4 col-md-6 col-sm-12">
+        <dl class="row">
+            <dt class="col-auto">@Html.DisplayNameFor(p => p.FullName)</dt>
+            <dd class="col border-bottom text-center mb-0">@Model.FullName</dd>
+        </dl>
+    </div>
+    <div class="col-lg-4 col-md-6 col-sm-12">
+        <dl class="row">
+            <dt class="col-auto">@Html.DisplayNameFor(p => p.Gender)</dt>
+            <dd class="col border-bottom text-center mb-0">@Model.Gender.ToString()</dd>
+        </dl>
+    </div>
+    <div class="col-lg-4 col-md-6 col-sm-12">
+        <dl class="row">
+            <dt class="col-auto">@Html.DisplayNameFor(p => p.DateOfBirth)</dt>
+            <dd class="col border-bottom text-center mb-0">@Model.DateOfBirth.ToShortDateString() (@Model.Age years)</dd>
+        </dl>
+    </div>
+    <div class="col-lg-4 col-md-6 col-sm-12">
+        <dl class="row">
+            <dt class="col-auto">@Html.DisplayNameFor(p => p.RegistrationDate)</dt>
+            <dd class="col border-bottom text-center mb-0">@Model.RegistrationDate.ToShortDateString()</dd>
+        </dl>
+    </div>
+    <div class="col-lg-4 col-md-6 col-sm-12">
+        <dl class="row">
+            <dt class="col-auto">@Html.DisplayNameFor(p => p.Email)</dt>
+            <dd class="col border-bottom text-center mb-0">@Model.Email</dd>
+        </dl>
+    </div>
+    <div class="col-lg-4 col-md-6 col-sm-12">
+        <dl class="row">
+            <dt class="col-auto">@Html.DisplayNameFor(p => p.PhoneNumber)</dt>
+            <dd class="col border-bottom text-center mb-0">@Model.PhoneNumber</dd>
+        </dl>
+    </div>
+    <div class="col-lg-3 col-md-6 col-sm-12">
+        <dl class="row">
+            <dt class="col-auto">@Html.DisplayNameFor(p => p.Address.Street)</dt>
+            <dd class="col border-bottom text-center mb-0">@Model.Address?.Street</dd>
+        </dl>
+    </div>
+    <div class="col-lg-3 col-md-6 col-sm-12">
+        <dl class="row">
+            <dt class="col-auto">@Html.DisplayNameFor(p => p.Address.City)</dt>
+            <dd class="col border-bottom text-center mb-0">@Model.Address?.City</dd>
+        </dl>
+    </div>
+    <div class="col-lg-3 col-md-6 col-sm-12">
+        <dl class="row">
+            <dt class="col-auto">@Html.DisplayNameFor(p => p.Address.Province)</dt>
+            <dd class="col border-bottom text-center mb-0">@Model.Address?.Province</dd>
+        </dl>
+    </div>
+    <div class="col-lg-3 col-md-6 col-sm-12">
+        <dl class="row">
+            <dt class="col-auto">@Html.DisplayNameFor(p => p.Address.Country)</dt>
+            <dd class="col border-bottom text-center mb-0">@Model.Address?.Country</dd>
+        </dl>
+    </div>
+    <div class="col-lg-3 col-md-6 col-sm-12">
+        <dl class="row">
+            <dt class="col-auto">@Html.DisplayNameFor(p => p.Address.PostalCode)</dt>
+            <dd class="col border-bottom text-center mb-0">@Model.Address?.PostalCode</dd>
+        </dl>
+    </div>
+</div>
+
+<div class="card mt-4">
+    <div class="card-header p-0">
+        <ul class="nav nav-tabs-healthcare tabs-secondary" role="tablist">
+            <li class="nav-item" role="presentation">
+                <a class="nav-link active" data-bs-target="#analytics-overview" href="#analytics-overview" role="tab">
+                    <i class="fas fa-notes-medical"></i>
+                    Medical record
+                </a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" data-bs-target="#system-status" href="#system-status" role="tab">
+                    <i class="far fa-calendar"></i>
+                    Appointments
+                </a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" data-bs-target="#reports" href="#reports" role="tab">
+                    <i class="fas fa-file-alt"></i>
+                    Consultations
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="tab-content tab-content-healthcare">
+        <div class="tab-pane fade show active" id="analytics-overview" role="tabpanel">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h5 class="card-title text-primary">1,247</h5>
+                            <p class="card-text">Total Patients</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h5 class="card-title text-success">89</h5>
+                            <p class="card-text">Today's Appointments</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h5 class="card-title text-warning">12</h5>
+                            <p class="card-text">Pending Reviews</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h5 class="card-title text-info">98.5%</h5>
+                            <p class="card-text">System Uptime</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-pane fade" id="system-status" role="tabpanel">
+            <h5 class="mb-3">System Health Status</h5>
+            <div class="list-group">
+                <div class="list-group-item d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="mb-1">Database Connection</h6>
+                        <small>Response time: 45ms</small>
+                    </div>
+                    <span class="badge bg-success">Healthy</span>
+                </div>
+                <div class="list-group-item d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="mb-1">API Services</h6>
+                        <small>All endpoints operational</small>
+                    </div>
+                    <span class="badge bg-success">Healthy</span>
+                </div>
+                <div class="list-group-item d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="mb-1">Email Service</h6>
+                        <small>Queue processing delayed</small>
+                    </div>
+                    <span class="badge bg-warning">Warning</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-pane fade" id="reports" role="tabpanel">
+            <h5 class="mb-3">Recent Reports</h5>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Report Name</th>
+                            <th>Generated</th>
+                            <th>Type</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Monthly Patient Summary</td>
+                            <td>2025-09-01</td>
+                            <td><span class="badge bg-info">Summary</span></td>
+                            <td>
+                                <button class="btn btn-sm btn-outline-primary">
+                                    <i class="fas fa-download"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Financial Analysis Q3</td>
+                            <td>2025-08-30</td>
+                            <td><span class="badge bg-success">Financial</span></td>
+                            <td>
+                                <button class="btn btn-sm btn-outline-primary">
+                                    <i class="fas fa-download"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

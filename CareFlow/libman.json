@@ -16,6 +16,29 @@
       "files": [
         "select2-bootstrap-5-theme.min.css"
       ]
+    },
+    {
+      "library": "font-awesome@6.7.2",
+      "destination": "wwwroot/lib/font-awesome/",
+      "files": [
+        "css/all.min.css",
+        "webfonts/fa-brands-400.ttf",
+        "webfonts/fa-brands-400.woff2",
+        "webfonts/fa-regular-400.ttf",
+        "webfonts/fa-regular-400.woff2",
+        "webfonts/fa-solid-900.ttf",
+        "webfonts/fa-solid-900.woff2",
+        "webfonts/fa-v4compatibility.ttf",
+        "webfonts/fa-v4compatibility.woff2"
+      ]
+    },
+    {
+      "provider": "cdnjs",
+      "library": "fullcalendar@6.1.19",
+      "destination": "wwwroot/lib/fullcalendar/",
+      "files": [
+        "index.global.min.js"
+      ]
     }
   ]
 }

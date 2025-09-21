@@ -1,4 +1,5 @@
 ﻿using CareFlow.Models.Results;
+using CareFlow.Services;
 using CareFlow.Services.Interfaces;
 using CareFlow.ViewModels.Patients;
 using Microsoft.AspNetCore.Mvc;
@@ -19,6 +20,7 @@ public class PatientsController(IPatientService patientService) : Controller
     }
 
     [HttpPost]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(AddPatientViewModel viewModel, CancellationToken cancellationToken = default)
     {
         await patientService.AddAsync(viewModel, cancellationToken);
@@ -32,9 +34,23 @@ public class PatientsController(IPatientService patientService) : Controller
     }
 
     [HttpPost]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(UpdatePatientViewModel viewModel, CancellationToken cancellationToken = default)
     {
         await patientService.UpdateAsync(viewModel, cancellationToken);
         return RedirectToAction(nameof(Index));
+    }
+
+    public async Task<IActionResult> Details(int id, CancellationToken cancellationToken = default)
+    {
+        var patient = await patientService.GetPatientDetailsAsync(id, cancellationToken);
+        return View(patient);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Search(string query, CancellationToken cancellationToken = default)
+    {
+        var results = await patientService.SearchByNameAsync(query, cancellationToken);
+        return Ok(results.Select(s => new { id = s.Id, text = s.Text }));
     }
 }

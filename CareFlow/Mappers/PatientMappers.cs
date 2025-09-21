@@ -18,7 +18,7 @@ public static class PatientMappers
             Gender = viewModel.Gender,
             PhoneNumber = viewModel.PhoneNumber,
             Address = viewModel.Address,
-            RegistrationDate = viewModel.RegistrationDate
+            RegistrationDate = DateTime.Now
         };
     }
 
@@ -29,12 +29,13 @@ public static class PatientMappers
             Id = patient.Id,
             FirstName = patient.FirstName,
             LastName = patient.LastName,
-            DateOfBirth = patient.DateOfBirth,
             Gender = patient.Gender,
             PhoneNumber = patient.PhoneNumber,
             Address = patient.Address,
             RegistrationDate = patient.RegistrationDate,
-            Age = patient.Age
+            Age = patient.Age,
+            HasUserAccount = patient.HasUserAccount,
+            Email = patient.Email
         };
     }
 
@@ -45,11 +46,11 @@ public static class PatientMappers
             Id = patient.Id,
             FirstName = patient.FirstName,
             LastName = patient.LastName,
+            Email = patient.Email,
+            PhoneNumber = patient.PhoneNumber,
             DateOfBirth = patient.DateOfBirth,
             Gender = patient.Gender,
-            PhoneNumber = patient.PhoneNumber,
-            Address = patient.Address,
-            RegistrationDate = patient.RegistrationDate
+            Address = patient.Address
         };
     }
 
@@ -64,7 +65,22 @@ public static class PatientMappers
                       .SetProperty(p => p.Address.City, viewModel.Address.City)
                       .SetProperty(p => p.Address.Province, viewModel.Address.Province)
                       .SetProperty(p => p.Address.PostalCode, viewModel.Address.PostalCode)
-                      .SetProperty(p => p.Address.Country, viewModel.Address.Country)
-                      .SetProperty(p => p.RegistrationDate, viewModel.RegistrationDate);
+                      .SetProperty(p => p.Address.Country, viewModel.Address.Country);
+    }
+
+    public static Expression<Func<Patient, PatientDetailsViewModel>> ToDetailsViewModel()
+    {
+        return patient => new PatientDetailsViewModel
+        {
+            Id = patient.Id,
+            FullName = patient.FullName,
+            DateOfBirth = patient.DateOfBirth,
+            Age = patient.Age,
+            Gender = patient.Gender,
+            PhoneNumber = patient.PhoneNumber,
+            Address = patient.Address,
+            RegistrationDate = patient.RegistrationDate,
+            Email = patient.Email
+        };
     }
 }

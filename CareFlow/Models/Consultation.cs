@@ -5,6 +5,7 @@ namespace CareFlow.Models;
 public class Consultation
 {
     public int Id { get; set; }
+    public int? AppointmentId { get; set; }
     public int MedicalRecordId { get; set; }
     public int DoctorId { get; set; }
     public DateTime Date { get; set; }
@@ -16,6 +17,7 @@ public class Consultation
     public required string Treatment { get; set; }
     public string? Notes { get; set; }
 
+    public Appointment? Appointment { get; set; }
     public MedicalRecord? MedicalRecord { get; set; }
     public Doctor? Doctor { get; set; }
 
