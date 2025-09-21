@@ -1,10 +1,12 @@
 ﻿using CareFlow.Models.Results;
 using CareFlow.Services.Interfaces;
 using CareFlow.ViewModels.Consultations;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CareFlow.Controllers;
 
+[Authorize]
 public class ConsultationsController(
     IConsultationService consultationService) : Controller
 {

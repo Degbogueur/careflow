@@ -8,6 +8,7 @@ builder.Services.AddServicesDependencyInjectionContainer();
 builder.Services.AddIdentityOptions();
 builder.Services.AddConfigurations(builder.Configuration);
 builder.Services.AddBackgroundServices(builder.Configuration);
+builder.Services.AddUserClaims();
 
 builder.Services.AddControllersWithViews();
 
@@ -35,5 +36,7 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.MapRazorPages();
 
 app.Run();

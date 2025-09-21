@@ -2,10 +2,12 @@
 using CareFlow.Services;
 using CareFlow.Services.Interfaces;
 using CareFlow.ViewModels.Patients;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CareFlow.Controllers;
 
+[Authorize]
 public class PatientsController(IPatientService patientService) : Controller
 {
     public async Task<IActionResult> Index(PaginationParameters? parameters = null, CancellationToken cancellationToken = default)

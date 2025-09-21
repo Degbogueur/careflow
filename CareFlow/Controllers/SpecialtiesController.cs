@@ -1,10 +1,12 @@
 ﻿using CareFlow.Models.Results;
 using CareFlow.Services.Interfaces;
 using CareFlow.ViewModels.Specialties;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CareFlow.Controllers;
 
+[Authorize]
 public class SpecialtiesController(ISpecialtyService specialtyService) : Controller
 {
     public async Task<IActionResult> Index(PaginationParameters? parameters = null, CancellationToken cancellationToken = default)

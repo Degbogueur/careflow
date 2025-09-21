@@ -1,10 +1,12 @@
 ﻿using CareFlow.Models.Results;
 using CareFlow.Services.Interfaces;
 using CareFlow.ViewModels.Appointments;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CareFlow.Controllers;
 
+[Authorize]
 public class AppointmentsController(
     IAppointmentService appointmentService) : Controller
 {

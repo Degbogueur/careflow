@@ -1,0 +1,84 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - CareFlow</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/auth.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/CareFlow.styles.css" asp-append-version="true" />
+    <!-- Google Fonts for healthcare-friendly typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css" />
+</head>
+<body class="auth-body">
+    <div class="auth-container">
+        <!-- Left Side - Branding -->
+        <div class="auth-brand-side">
+            <div class="auth-brand-content">
+                <div class="brand-logo">
+                    <i class="fas fa-heartbeat"></i>
+                    <h1>CareFlow</h1>
+                </div>
+                <div class="brand-description">
+                    <h3>Modern Healthcare Management</h3>
+                    <p>Streamline your healthcare operations with our comprehensive management platform. Secure, efficient, and designed for healthcare professionals.</p>
+                </div>
+                <div class="brand-features">
+                    <div class="feature-item">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>HIPAA Compliant</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-clock"></i>
+                        <span>24/7 Available</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-users"></i>
+                        <span>Multi-User Support</span>
+                    </div>
+                </div>
+            </div>
+            <div class="auth-decorative-elements">
+                <div class="floating-element element-1"></div>
+                <div class="floating-element element-2"></div>
+                <div class="floating-element element-3"></div>
+            </div>
+        </div>
+
+        <!-- Right Side - Authentication Form -->
+        <div class="auth-form-side">
+            <div class="auth-form-container">
+                <div class="auth-header">
+                    <div class="auth-logo-small d-md-none">
+                        <i class="fas fa-heartbeat"></i>
+                        <span>CareFlow</span>
+                    </div>
+                </div>
+
+                <main class="auth-main">
+                    @RenderBody()
+                </main>
+
+                <div class="auth-footer">
+                    <p>&copy; 2025 CareFlow. All rights reserved.</p>
+                    <div class="auth-footer-links">
+                        <a href="#" class="auth-link">Privacy Policy</a>
+                        <span>•</span>
+                        <a href="#" class="auth-link">Terms of Service</a>
+                        <span>•</span>
+                        <a href="#" class="auth-link">Support</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/auth.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

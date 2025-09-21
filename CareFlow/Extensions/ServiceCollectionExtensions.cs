@@ -34,6 +34,7 @@ public static class ServiceCollectionExtensions
     {
         services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultUI()
                 .AddDefaultTokenProviders();
         return services;
     }
@@ -55,6 +56,12 @@ public static class ServiceCollectionExtensions
 
         services.AddScoped<IUserAccountBackgroundJobs, UserAccountBackgroundJobs>();
 
+        return services;
+    }
+
+    public static IServiceCollection AddUserClaims(this IServiceCollection services)
+    {
+        services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, ApplicationUserClaimsPrincipalFactory>();
         return services;
     }
 }

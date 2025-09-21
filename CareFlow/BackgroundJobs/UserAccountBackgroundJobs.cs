@@ -36,6 +36,8 @@ public class UserAccountBackgroundJobs(
 
             user = new ApplicationUser
             {
+                FirstName = doctor.FirstName,
+                LastName = doctor.LastName,
                 UserName = doctor.Email,
                 Email = doctor.Email,
                 PhoneNumber = doctor.PhoneNumber,
@@ -88,6 +90,8 @@ public class UserAccountBackgroundJobs(
 
             user = new ApplicationUser
             {
+                FirstName = patient.FirstName,
+                LastName = patient.LastName,
                 UserName = patient.Email,
                 Email = patient.Email,
                 PhoneNumber = patient.PhoneNumber,

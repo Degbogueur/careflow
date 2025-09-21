@@ -36,6 +36,8 @@ public static class ApplicationBuilderExtensions
         {
             superAdmin = new ApplicationUser
             {
+                FirstName = "Super",
+                LastName = "Admin",
                 UserName = email,
                 Email = email,
                 EmailConfirmed = true,
